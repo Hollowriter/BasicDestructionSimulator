@@ -25,8 +25,11 @@ public class PhysicsObj : MonoBehaviour
     {
         endVelocity = initialVelocity + acceleration * time;
         initialVelocity = endVelocity;
-        endVelocity = maxVelocity;
-        initialVelocity = maxVelocity;
+        if (endVelocity >= maxVelocity)
+        {
+            endVelocity = maxVelocity;
+            initialVelocity = maxVelocity;
+        }
     }
 
     public void UpdateDistance()
