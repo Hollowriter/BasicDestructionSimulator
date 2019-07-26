@@ -242,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 0.5
   mass: 8
-  maxVelocity: 20
+  maxVelocity: 1
 --- !u!4 &832180266
 Transform:
   m_ObjectHideFlags: 0

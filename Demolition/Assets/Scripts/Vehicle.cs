@@ -42,7 +42,7 @@ public class Vehicle : PhysicsObj
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-
+            SetTime(0);
         }
     }
 
@@ -56,16 +56,17 @@ public class Vehicle : PhysicsObj
         Think();
     }
 
-    public override void Think()
-    {
-        base.Think();
-        Advance();
-    }
-
     public override void Initializing()
     {
         base.Initializing();
         translationVector = Vector3.zero;
         forward = false;
+    }
+
+    public override void Think()
+    {
+        base.Think();
+        Advance();
+        Breaking();
     }
 }
