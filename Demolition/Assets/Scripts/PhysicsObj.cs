@@ -44,7 +44,11 @@ public class PhysicsObj : MonoBehaviour
 
     public void ReubicateLastPosition()
     {
-        lastPosition = transform.position.x;
+        if (time == 0)
+        {
+            lastPosition = transform.position.x;
+            Debug.Log("enters");
+        }
     }
 
     public void UpdateWork()
@@ -132,6 +136,7 @@ public class PhysicsObj : MonoBehaviour
         UpdateVelocity();
         UpdateDistance();
         UpdateWork();
+        ReubicateLastPosition();
         /*Debug.Log("InitialVelocity: " + GetInitialVelocity() + "/n");
         Debug.Log("EndVelocity: " + GetEndVelocity() + "/n");
         Debug.Log("LastPosition: " + GetLastPosition() + "/n");

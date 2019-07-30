@@ -608,6 +608,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Ball.cs" />
     <Compile Include="Assets\Scripts\PhysicsObj.cs" />
+    <Compile Include="Assets\Scripts\TestScripts\Pendulum.cs" />
     <Compile Include="Assets\Scripts\Vehicle.cs" />
   </ItemGroup>
   <ItemGroup>

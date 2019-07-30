@@ -10,7 +10,7 @@ public class Vehicle : PhysicsObj
     void Advance()
     {
         translationVector.x = GetEndVelocity();
-        Debug.Log(GetEndVelocity());
+        Debug.Log(GetTime());
         if (Input.GetKey(KeyCode.D))
         {
             SetTime(GetTime() + Time.deltaTime);
@@ -34,6 +34,10 @@ public class Vehicle : PhysicsObj
             if (GetTime() > 0)
             {
                 SetTime(GetTime() - Time.deltaTime);
+            }
+            else if (GetTime() < 0)
+            {
+                SetTime(0);
             }
         }
     }
