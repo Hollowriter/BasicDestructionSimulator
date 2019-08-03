@@ -15,7 +15,8 @@ public class PhysicsObj : MonoBehaviour
     float strength; // mass * acceleration
     float weight; // mass * gravity
     float distance;
-    float work; // strength * distance
+    float rotationAngle; // Work it with work
+    float work; // strength * distance * rotationAngle
     [SerializeField]
     float maxVelocity;
     [SerializeField]
@@ -42,18 +43,34 @@ public class PhysicsObj : MonoBehaviour
         distance = transform.position.x - lastPosition;
     }
 
+    public void UpdateRotationAngle()
+    {
+        rotationAngle = transform.rotation.z;
+    }
+
     public void ReubicateLastPosition()
     {
         if (time == 0)
         {
             lastPosition = transform.position.x;
-            Debug.Log("enters");
+            //Debug.Log("enters");
         }
     }
 
     public void UpdateWork()
     {
-        work = strength * distance;
+        if (rotationAngle == 0)
+        {
+            work = strength * distance * Mathf.Cos(rotationAngle);
+        }
+        else
+        {
+            work = strength * distance;
+        }
+        /*if (work < 0)
+        {
+            work *= -1;
+        }*/
     }
     public void SetTime(float newTime)
     {
@@ -101,6 +118,10 @@ public class PhysicsObj : MonoBehaviour
     {
         return mass;
     }
+    public float GetRotationAngle()
+    {
+        return rotationAngle;
+    }
     public float GetGravity()
     {
         return gravity;
@@ -135,6 +156,7 @@ public class PhysicsObj : MonoBehaviour
     {
         UpdateVelocity();
         UpdateDistance();
+        UpdateRotationAngle();
         UpdateWork();
         ReubicateLastPosition();
         /*Debug.Log("InitialVelocity: " + GetInitialVelocity() + "/n");

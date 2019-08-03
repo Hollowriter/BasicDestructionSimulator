@@ -4,28 +4,33 @@ using UnityEngine;
 
 public class Vehicle : PhysicsObj
 {
+    Ball wreckingBall;
     Vector3 translationVector;
     private bool forward;
 
-    void Advance()
+    public void Advance()
     {
         translationVector.x = GetEndVelocity();
-        Debug.Log(GetTime());
+        // Debug.Log(GetTime());
         if (Input.GetKey(KeyCode.D))
         {
             SetTime(GetTime() + Time.deltaTime);
+            GetWreckingBall().SetTime(GetTime());
+            GetWreckingBall().SetPhase(2);
             forward = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
             SetTime(GetTime() + Time.deltaTime);
+            GetWreckingBall().SetTime(GetTime());
+            GetWreckingBall().SetPhase(1);
             forward = false;
         }
-        if (forward == false)
+        if (GetForward() == false)
         {
             translationVector.x *= -1;
         }
-        if (forward == false && translationVector.x < 0 || forward == true && translationVector.x > 0)
+        if (GetForward() == false && translationVector.x < 0 || GetForward() == true && translationVector.x > 0)
         {
             transform.Translate(translationVector * Time.deltaTime);
         }
@@ -34,6 +39,7 @@ public class Vehicle : PhysicsObj
             if (GetTime() > 0)
             {
                 SetTime(GetTime() - Time.deltaTime);
+                GetWreckingBall().SetTime(GetTime());
             }
             else if (GetTime() < 0)
             {
@@ -42,12 +48,27 @@ public class Vehicle : PhysicsObj
         }
     }
 
-    void Breaking()
+    public void Breaking()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
             SetTime(0);
         }
+    }
+
+    public void SetWreckingBall(Ball wBall)
+    {
+        wreckingBall = wBall;
+    }
+
+    public Ball GetWreckingBall()
+    {
+        return wreckingBall;
+    }
+
+    public bool GetForward()
+    {
+        return forward;
     }
 
     void Start()
@@ -63,6 +84,7 @@ public class Vehicle : PhysicsObj
     public override void Initializing()
     {
         base.Initializing();
+        SetWreckingBall(GetComponentInChildren<Ball>());
         translationVector = Vector3.zero;
         forward = false;
     }
