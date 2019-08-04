@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 0.5
-  mass: 5
+  mass: 8
   maxVelocity: 3
   maximumDistance: 1
 --- !u!4 &467762089
@@ -253,7 +253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467762087}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5519519, y: 2.98, z: 1.8461509}
+  m_LocalPosition: {x: 0.5519519, y: 2.98, z: -1.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 27458128}

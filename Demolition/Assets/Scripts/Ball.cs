@@ -5,18 +5,25 @@ using UnityEngine;
 public class Ball : PhysicsObj
 {
     // Vehicle parentVehicle;
+    // Vector3 translationVector;
     Vector3 rotationVector;
     [SerializeField]
     float maximumDistance;
     int phase;
 
-    public void Movement()
+    public void Rotation()
     {
-        if (GetDistance() < maximumDistance) // Rodrigo, mas te vale revisar esto porque es raro
+        Debug.Log(GetDistance());
+        if (GetDistance() > 0 && GetDistance() < maximumDistance ||
+            GetDistance() < 0 && GetDistance() > maximumDistance * -1) // Rodrigo, mas te vale revisar esto porque es raro
         { // Y trata de ver porque el objeto no va a la misma velocidad que el padre.
             switch (phase)
             {
                 case 0:
+                    if (GetTime() > 0)
+                    {
+                        SetTime(GetTime() - 1);
+                    }
                     break;
                 case 1:
                     rotationVector.z = GetEndVelocity();
@@ -28,6 +35,12 @@ public class Ball : PhysicsObj
             transform.Rotate(rotationVector);
         }
     }
+
+    /*public void Translation(Vector3 consecuence)
+    {
+        transform.Translate(consecuence * Time.deltaTime);
+        Debug.Log("chupamela, la concha de tu hermana");
+    }*/
 
     /*public void SetParentVehicle(Vehicle theVehicle)
     {
@@ -82,6 +95,7 @@ public class Ball : PhysicsObj
     {
         base.Initializing();
         // SetParentVehicle(GetComponentInParent<Vehicle>());
+        // translationVector = Vector3.zero;
         rotationVector = Vector3.zero;
         phase = 0;
     }
@@ -89,6 +103,6 @@ public class Ball : PhysicsObj
     public override void Think()
     {
         base.Think();
-        Movement();
+        Rotation();
     }
 }

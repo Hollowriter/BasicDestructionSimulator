@@ -33,6 +33,7 @@ public class Vehicle : PhysicsObj
         if (GetForward() == false && translationVector.x < 0 || GetForward() == true && translationVector.x > 0)
         {
             transform.Translate(translationVector * Time.deltaTime);
+            // GetWreckingBall().Translation(translationVector);
         }
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
@@ -44,6 +45,8 @@ public class Vehicle : PhysicsObj
             else if (GetTime() < 0)
             {
                 SetTime(0);
+                GetWreckingBall().SetTime(GetTime());
+                GetWreckingBall().SetPhase(0);
             }
         }
     }
@@ -53,6 +56,8 @@ public class Vehicle : PhysicsObj
         if (Input.GetKeyDown(KeyCode.S))
         {
             SetTime(0);
+            GetWreckingBall().SetTime(GetTime());
+            GetWreckingBall().SetPhase(0);
         }
     }
 
