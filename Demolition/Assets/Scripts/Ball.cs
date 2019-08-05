@@ -11,12 +11,13 @@ public class Ball : PhysicsObj
     float maximumDistance;
     int phase;
 
-    public void Rotation()
+    public void RotationWhileMove()
     {
-        Debug.Log(GetDistance());
+        // Debug.Log(GetDistance());
         if (GetDistance() > 0 && GetDistance() < maximumDistance ||
-            GetDistance() < 0 && GetDistance() > maximumDistance * -1) // Rodrigo, mas te vale revisar esto porque es raro
-        { // Y trata de ver porque el objeto no va a la misma velocidad que el padre.
+            GetDistance() < 0 && GetDistance() > maximumDistance * -1)
+        {
+            Debug.Log("entro");
             switch (phase)
             {
                 case 0:
@@ -34,6 +35,24 @@ public class Ball : PhysicsObj
             }
             transform.Rotate(rotationVector);
         }
+    }
+
+    public void PendularMovement()
+    {
+        /*switch (phase)
+        {
+            case 0:
+                if (GetTime() > 0)
+                {
+                    SetTime(GetTime() - 1);
+                    Debug.Log(GetTime());
+                }
+                break;
+        }
+        if (GetDistance() == 0)
+        {
+            transform.Rotate(rotationVector);
+        }*/ // Reparar esto
     }
 
     /*public void Translation(Vector3 consecuence)
@@ -103,6 +122,7 @@ public class Ball : PhysicsObj
     public override void Think()
     {
         base.Think();
-        Rotation();
+        RotationWhileMove();
+        PendularMovement();
     }
 }
