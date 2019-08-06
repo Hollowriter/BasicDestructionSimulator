@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ball : PhysicsObj
 {
-    // Vehicle parentVehicle;
+    Vehicle parentVehicle;
     // Vector3 translationVector;
     Vector3 rotationVector;
     [SerializeField]
@@ -15,18 +15,14 @@ public class Ball : PhysicsObj
 
     public void RotationWhileMove()
     {
-        Debug.Log("Angulo = " + GetRotationAngle());
-        Debug.Log("DistanciaMaxima = " + GetMaximumDistance());
+        //Debug.Log("Rotation = " + GetRotationAngle());
+        // Debug.Log("Distance = " + GetDistance());
         if (GetDistance() > 0 /*&& GetDistance() < maximumDistance*/ ||
             GetDistance() < 0 /*&& GetDistance() > maximumDistance * -1*/)
         {
             switch (phase)
             {
                 case 0:
-                    if (GetTime() > 0)
-                    {
-                        SetTime(GetTime() - 1);
-                    }
                     break;
                 case 1:
                     rotationVector.z = GetEndVelocity();
@@ -35,8 +31,8 @@ public class Ball : PhysicsObj
                     rotationVector.z = GetEndVelocity() * -1;
                     break;
             }
-            if (GetDistance() > 0 && GetRotationAngle() > maximumRotation * -1 ||
-                GetDistance() < 0 && GetRotationAngle() < maximumRotation)
+            if (parentVehicle.GetDistance() > 0 && GetRotationAngle() > maximumRotation * -1 ||
+                parentVehicle.GetDistance() < 0 && GetRotationAngle() < maximumRotation)
             {
                 transform.Rotate(rotationVector);
             }
@@ -47,17 +43,56 @@ public class Ball : PhysicsObj
     {
         switch (phase)
         {
-            case 0:
-                if (GetTime() > 0)
-                {
-                    SetTime(GetTime() - 1);
-                    Debug.Log(GetTime());
-                }
+            case 3:
+                rotationVector.z = GetEndVelocity() * -1;
+                break;
+            case 4:
+                rotationVector.z = GetEndVelocity();
                 break;
         }
-        if (GetDistance() == 0)
+        if (parentVehicle.GetDistance() == 0 )
         {
             transform.Rotate(rotationVector);
+            SetTime(GetTime() + Time.deltaTime);
+        }
+    }
+
+    public void PhaseController()
+    {
+        if (parentVehicle.GetDistance() < 0)
+        {
+            SetPhase(1);
+        }
+        if (parentVehicle.GetDistance() > 0)
+        {
+            SetPhase(2);
+        }
+
+        if (parentVehicle.GetDistance() == 0)
+        {
+            switch (phase)
+            {
+                case 1:
+                    SetPhase(3);
+                    break;
+                case 2:
+                    SetPhase(4);
+                    break;
+            }
+        }
+
+        if (GetPhase() == 3 && GetRotationAngle() < maximumRotation * -1 ||
+            GetPhase() == 4 && GetRotationAngle() > maximumRotation)
+        {
+            switch (phase)
+            {
+                case 3:
+                    SetPhase(4);
+                    break;
+                case 4:
+                    SetPhase(3);
+                    break;
+            }
         }
     }
 
@@ -67,10 +102,10 @@ public class Ball : PhysicsObj
         Debug.Log("chupamela, la concha de tu hermana");
     }*/
 
-    /*public void SetParentVehicle(Vehicle theVehicle)
+    public void SetParentVehicle(Vehicle theVehicle)
     {
         parentVehicle = theVehicle;
-    }*/
+    }
 
     public void SetMaximumDistance(float mDistance)
     {
@@ -86,10 +121,11 @@ public class Ball : PhysicsObj
     {
         rotationVector = rVector;
     }
-    /*public Vehicle GetParentVehicle()
+
+    public Vehicle GetParentVehicle()
     {
         return parentVehicle;
-    }*/
+    }
 
     public float GetMaximumDistance()
     {
@@ -119,7 +155,7 @@ public class Ball : PhysicsObj
     public override void Initializing()
     {
         base.Initializing();
-        // SetParentVehicle(GetComponentInParent<Vehicle>());
+        SetParentVehicle(GetComponentInParent<Vehicle>());
         // translationVector = Vector3.zero;
         rotationVector = Vector3.zero;
         phase = 0;
@@ -129,6 +165,7 @@ public class Ball : PhysicsObj
     {
         base.Think();
         RotationWhileMove();
-        // PendularMovement();
+        PendularMovement();
+        PhaseController();
     }
 }

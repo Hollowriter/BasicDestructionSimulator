@@ -243,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 0.5
   mass: 8
-  maxVelocity: 3
+  maxVelocity: 1
   maximumDistance: 1
   maximumRotation: 0.5
 --- !u!4 &467762089
@@ -335,7 +335,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: -1.742071e-37, z: 2.6559e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: -0.00010998939, z: 6.6472e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0

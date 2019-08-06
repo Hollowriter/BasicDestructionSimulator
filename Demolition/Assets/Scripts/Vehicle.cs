@@ -11,19 +11,19 @@ public class Vehicle : PhysicsObj
     public void Advance()
     {
         translationVector.x = GetEndVelocity();
-        // Debug.Log(GetTime());
+        // Debug.Log(GetDistance());
         if (Input.GetKey(KeyCode.D))
         {
             SetTime(GetTime() + Time.deltaTime);
             GetWreckingBall().SetTime(GetTime());
-            GetWreckingBall().SetPhase(2);
+            // GetWreckingBall().SetPhase(2);
             forward = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
             SetTime(GetTime() + Time.deltaTime);
             GetWreckingBall().SetTime(GetTime());
-            GetWreckingBall().SetPhase(1);
+            // GetWreckingBall().SetPhase(1);
             forward = false;
         }
         if (GetForward() == false)
@@ -40,13 +40,13 @@ public class Vehicle : PhysicsObj
             if (GetTime() > 0)
             {
                 SetTime(GetTime() - Time.deltaTime);
-                GetWreckingBall().SetTime(GetTime());
+                //GetWreckingBall().SetTime(GetTime());
             }
             else if (GetTime() < 0)
             {
                 SetTime(0);
-                GetWreckingBall().SetTime(GetTime());
-                GetWreckingBall().SetPhase(0);
+                //GetWreckingBall().SetTime(GetTime());
+                //GetWreckingBall().SetPhase(0);
             }
         }
     }
@@ -56,8 +56,8 @@ public class Vehicle : PhysicsObj
         if (Input.GetKeyDown(KeyCode.S))
         {
             SetTime(0);
-            GetWreckingBall().SetTime(GetTime());
-            GetWreckingBall().SetPhase(0);
+            //GetWreckingBall().SetTime(GetTime());
+            //GetWreckingBall().SetPhase(0);
         }
     }
 
