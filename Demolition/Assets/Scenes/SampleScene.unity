@@ -245,6 +245,7 @@ MonoBehaviour:
   mass: 8
   maxVelocity: 3
   maximumDistance: 1
+  maximumRotation: 0.5
 --- !u!4 &467762089
 Transform:
   m_ObjectHideFlags: 0

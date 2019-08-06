@@ -9,15 +9,17 @@ public class Ball : PhysicsObj
     Vector3 rotationVector;
     [SerializeField]
     float maximumDistance;
+    [SerializeField]
+    float maximumRotation;
     int phase;
 
     public void RotationWhileMove()
     {
-        // Debug.Log(GetDistance());
-        if (GetDistance() > 0 && GetDistance() < maximumDistance ||
-            GetDistance() < 0 && GetDistance() > maximumDistance * -1)
+        Debug.Log("Angulo = " + GetRotationAngle());
+        Debug.Log("DistanciaMaxima = " + GetMaximumDistance());
+        if (GetDistance() > 0 /*&& GetDistance() < maximumDistance*/ ||
+            GetDistance() < 0 /*&& GetDistance() > maximumDistance * -1*/)
         {
-            Debug.Log("entro");
             switch (phase)
             {
                 case 0:
@@ -33,13 +35,17 @@ public class Ball : PhysicsObj
                     rotationVector.z = GetEndVelocity() * -1;
                     break;
             }
-            transform.Rotate(rotationVector);
+            if (GetDistance() > 0 && GetRotationAngle() > maximumRotation * -1 ||
+                GetDistance() < 0 && GetRotationAngle() < maximumRotation)
+            {
+                transform.Rotate(rotationVector);
+            }
         }
     }
 
     public void PendularMovement()
     {
-        /*switch (phase)
+        switch (phase)
         {
             case 0:
                 if (GetTime() > 0)
@@ -52,7 +58,7 @@ public class Ball : PhysicsObj
         if (GetDistance() == 0)
         {
             transform.Rotate(rotationVector);
-        }*/ // Reparar esto
+        }
     }
 
     /*public void Translation(Vector3 consecuence)
@@ -123,6 +129,6 @@ public class Ball : PhysicsObj
     {
         base.Think();
         RotationWhileMove();
-        PendularMovement();
+        // PendularMovement();
     }
 }
