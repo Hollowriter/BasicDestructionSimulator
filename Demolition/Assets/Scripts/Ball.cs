@@ -12,6 +12,7 @@ public class Ball : PhysicsObj
     [SerializeField]
     float maximumRotation;
     int phase;
+    bool colliding;
 
     public void RotationWhileMove()
     {
@@ -29,9 +30,9 @@ public class Ball : PhysicsObj
                     break;
             }
             if (parentVehicle.GetDistance() > 0 && 
-                GetRotationAngle() > maximumRotation * -1 ||
+                GetRotationAngle() > maximumRotation * -1 && GetColliding() == false ||
                 parentVehicle.GetDistance() < 0 && 
-                GetRotationAngle() < maximumRotation)
+                GetRotationAngle() < maximumRotation && GetColliding() == false)
             {
                 transform.Rotate(rotationVector);
             }
@@ -102,10 +103,10 @@ public class Ball : PhysicsObj
         parentVehicle = theVehicle;
     }
 
-    /*public void SetMovingLimit(float mDistance)
+    public void SetColliding(bool coll)
     {
-        whileMovingLimit = mDistance;
-    }*/
+        colliding = coll;
+    }
 
     public void SetPhase(int _phase)
     {
@@ -122,10 +123,10 @@ public class Ball : PhysicsObj
         return parentVehicle;
     }
 
-    /*public float GetMovingLimit()
+    public bool GetColliding()
     {
-        return whileMovingLimit;
-    }*/
+        return colliding;
+    }
 
     public int GetPhase()
     {
@@ -152,6 +153,7 @@ public class Ball : PhysicsObj
         base.Initializing();
         SetParentVehicle(GetComponentInParent<Vehicle>());
         rotationVector = Vector3.zero;
+        colliding = false;
         phase = 0;
     }
 
@@ -180,13 +182,37 @@ public class Ball : PhysicsObj
                     SetTime(0);
                     SetPhase(3);
                 }
-                else if (GetPhase() == 2)
+                else if (GetPhase() == 1)
                 {
                     SetTime(0);
+                    SetColliding(true);
                 }
             }
             Debug.Log("MiFuerza = " + GetStrength());
             Debug.Log("ElPesoDelObjeto = " + collision.gameObject.GetComponent<Breakable>().GetWeight());
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Breakable")
+        {
+            if (GetStrength() < other.gameObject.GetComponent<Breakable>().GetWeight())
+            {
+                if (GetPhase() == 1)
+                {
+                    SetTime(0);
+                    SetColliding(true);
+                }
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Breakable")
+        {
+            SetColliding(false);
         }
     }
 }

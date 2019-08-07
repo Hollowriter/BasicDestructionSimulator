@@ -7,6 +7,7 @@ public class Vehicle : PhysicsObj
     Ball wreckingBall;
     Vector3 translationVector;
     private bool forward;
+    private bool limitCollide;
 
     public void Advance()
     {
@@ -30,7 +31,8 @@ public class Vehicle : PhysicsObj
         {
             translationVector.x *= -1;
         }
-        if (GetForward() == false && translationVector.x < 0 || GetForward() == true && translationVector.x > 0)
+        if (GetForward() == false && translationVector.x < 0 && GetLimitCollide() == false 
+            || GetForward() == true && translationVector.x > 0 && GetLimitCollide() == false)
         {
             transform.Translate(translationVector * Time.deltaTime);
             // GetWreckingBall().Translation(translationVector);
@@ -53,7 +55,7 @@ public class Vehicle : PhysicsObj
 
     public void Breaking()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) || GetLimitCollide() == true)
         {
             SetTime(0);
             //GetWreckingBall().SetTime(GetTime());
@@ -71,9 +73,19 @@ public class Vehicle : PhysicsObj
         return wreckingBall;
     }
 
+    public void SetLimitCollide(bool coll)
+    {
+        limitCollide = coll;
+    }
+
     public bool GetForward()
     {
         return forward;
+    }
+
+    public bool GetLimitCollide()
+    {
+        return limitCollide;
     }
 
     void Start()
@@ -99,5 +111,32 @@ public class Vehicle : PhysicsObj
         base.Think();
         Advance();
         Breaking();
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Limit")
+        {
+            if (GetForward() == true)
+            {
+                SetLimitCollide(true);
+            }
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Limit")
+        {
+            if (GetForward() == true)
+            {
+                Debug.Log("asd");
+                SetLimitCollide(true);
+            }
+            else
+            {
+                SetLimitCollide(false);
+            }
+        }
     }
 }
