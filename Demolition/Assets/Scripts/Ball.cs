@@ -15,10 +15,8 @@ public class Ball : PhysicsObj
 
     public void RotationWhileMove()
     {
-        //Debug.Log("Rotation = " + GetRotationAngle());
-        // Debug.Log("Distance = " + GetDistance());
-        if (GetDistance() > 0 /*&& GetDistance() < maximumDistance*/ ||
-            GetDistance() < 0 /*&& GetDistance() > maximumDistance * -1*/)
+        Debug.Log(GetWork());
+        if (GetDistance() > 0 || GetDistance() < 0)
         {
             switch (phase)
             {
@@ -90,19 +88,15 @@ public class Ball : PhysicsObj
             {
                 case 3:
                     SetPhase(4);
+                    SetTime(0);
                     break;
                 case 4:
                     SetPhase(3);
+                    SetTime(0);
                     break;
             }
         }
     }
-
-    /*public void Translation(Vector3 consecuence)
-    {
-        transform.Translate(consecuence * Time.deltaTime);
-        Debug.Log("chupamela, la concha de tu hermana");
-    }*/
 
     public void SetParentVehicle(Vehicle theVehicle)
     {
@@ -158,7 +152,6 @@ public class Ball : PhysicsObj
     {
         base.Initializing();
         SetParentVehicle(GetComponentInParent<Vehicle>());
-        // translationVector = Vector3.zero;
         rotationVector = Vector3.zero;
         phase = 0;
     }
