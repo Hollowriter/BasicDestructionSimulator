@@ -25,4 +25,12 @@ public class Breakable : PhysicsObj
     {
         base.Think();
     }
+
+    /*public void OnCollisionEnter(Collision collision)
+    {
+        if (GetWeight() < collision.gameObject.GetComponent<Ball>().GetStrength())
+        {
+            Destroy(this.gameObject);
+        }
+    }*/
 }

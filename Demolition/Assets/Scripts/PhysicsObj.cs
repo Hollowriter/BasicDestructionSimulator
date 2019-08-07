@@ -19,8 +19,7 @@ public class PhysicsObj : MonoBehaviour
     float work; // strength * distance * rotationAngle
     [SerializeField]
     float maxVelocity;
-    [SerializeField]
-    static float gravity;
+    const float gravity = 9.8f;
 
     public void UpdateVelocity()
     {
