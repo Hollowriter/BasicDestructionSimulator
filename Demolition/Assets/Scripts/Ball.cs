@@ -8,7 +8,7 @@ public class Ball : PhysicsObj
     // Vector3 translationVector;
     Vector3 rotationVector;
     [SerializeField]
-    float maximumDistance;
+    float whileMovingLimit;
     [SerializeField]
     float maximumRotation;
     int phase;
@@ -31,8 +31,10 @@ public class Ball : PhysicsObj
                     rotationVector.z = GetEndVelocity() * -1;
                     break;
             }
-            if (parentVehicle.GetDistance() > 0 && GetRotationAngle() > maximumRotation * -1 ||
-                parentVehicle.GetDistance() < 0 && GetRotationAngle() < maximumRotation)
+            if (parentVehicle.GetDistance() > 0 && 
+                GetRotationAngle() > (maximumRotation - whileMovingLimit) * -1 ||
+                parentVehicle.GetDistance() < 0 && 
+                GetRotationAngle() < (maximumRotation - whileMovingLimit))
             {
                 transform.Rotate(rotationVector);
             }
@@ -107,9 +109,9 @@ public class Ball : PhysicsObj
         parentVehicle = theVehicle;
     }
 
-    public void SetMaximumDistance(float mDistance)
+    public void SetMovingLimit(float mDistance)
     {
-        maximumDistance = mDistance;
+        whileMovingLimit = mDistance;
     }
 
     public void SetPhase(int _phase)
@@ -127,9 +129,9 @@ public class Ball : PhysicsObj
         return parentVehicle;
     }
 
-    public float GetMaximumDistance()
+    public float GetMovingLimit()
     {
-        return maximumDistance;
+        return whileMovingLimit;
     }
 
     public int GetPhase()

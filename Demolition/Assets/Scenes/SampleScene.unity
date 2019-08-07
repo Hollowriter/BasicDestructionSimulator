@@ -244,7 +244,7 @@ MonoBehaviour:
   acceleration: 0.5
   mass: 8
   maxVelocity: 1
-  maximumDistance: 1
+  whileMovingLimit: 0.2
   maximumRotation: 0.5
 --- !u!4 &467762089
 Transform:
